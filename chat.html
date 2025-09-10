@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SaaviGenAI Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-black text-white font-sans h-screen flex flex-col">
+    <!-- Header (site logo) -->
+    <header class="bg-black border-b border-gray-800">
+      <div class="container mx-auto px-6 py-4 flex items-center gap-2">
+        <img src="assets/logo.png" alt="SaaviGenAI Logo" class="h-12" />
+        <div class="text-xl font-bold tracking-wide">
+          SaaviGen<span class="text-gray-400">AI</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Chat Container -->
+    <main class="flex-grow flex flex-col bg-black">
+      <!-- Chatbot name bar -->
+      <div class="border-b border-gray-800 bg-black">
+        <div
+          class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between"
+        >
+          <!-- Left: avatar + name -->
+          <div class="flex items-center gap-3">
+            <div>
+              <h2 class="text-lg font-semibold">SaaviGenAI Chatbot</h2>
+            </div>
+          </div>
+          <!-- Right: optional actions -->
+          <div class="flex items-center gap-2">
+            <button
+              class="bg-gray-900 hover:bg-gray-800 px-3 py-1.5 rounded text-sm text-gray-300 transition"
+            >
+              New Chat
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages Area -->
+      <div class="flex-1 overflow-y-auto bg-black">
+        <div id="chat-messages" class="max-w-4xl mx-auto p-6 space-y-4">
+          <!-- Welcome message -->
+          <div class="flex items-start space-x-3">
+            <div
+              class="w-8 h-8 bg-gray-800 text-gray-400 rounded-full flex items-center justify-center text-sm font-semibold"
+            >
+              S
+            </div>
+            <div
+              class="bg-gray-900 text-gray-200 px-4 py-2 rounded-lg max-w-[70%]"
+            >
+              Welcome! I'm SaaviGenAI—how can I assist you today?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Section -->
+      <div class="border-t border-gray-800 bg-black">
+        <div class="max-w-4xl mx-auto flex items-center p-4">
+          <input
+            id="chat-input"
+            type="text"
+            placeholder="Type your message…"
+            class="flex-1 bg-gray-900 text-white rounded-full px-4 py-2 focus:outline-none placeholder-gray-500"
+            onkeypress="if(event.key==='Enter') sendChatMessage()"
+          />
+          <button
+            onclick="sendChatMessage()"
+            class="ml-3 bg-gray-900 hover:bg-gray-800 px-5 py-2 rounded-full text-white transition"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const botReplies = {
+        services: "We offer GenAI training, compliance and security services.",
+        contact: "Email us at contact@SaaviGen.AI or call +91 9742266597.",
+        pricing: "Please fill out our contact form to get a custom quote.",
+        default: "Sorry, I didn't catch that—could you rephrase?",
+      };
+
+      const messages = document.getElementById("chat-messages");
+
+      function addMessage(text, sender = "bot") {
+        const wrapper = document.createElement("div");
+        wrapper.classList.add(
+          "flex",
+          sender === "user" ? "justify-end" : "items-start",
+          "space-x-3"
+        );
+        if (sender === "user") {
+          wrapper.classList.remove("space-x-3");
+          wrapper.classList.add("space-x-reverse");
+        }
+
+        const bubble = document.createElement("div");
+        bubble.className = `px-4 py-2 rounded-lg max-w-[70%] ${
+          sender === "user"
+            ? "bg-gray-800 text-white"
+            : "bg-gray-900 text-gray-200"
+        }`;
+        bubble.textContent = text;
+
+        if (sender !== "user") {
+          const avatar = document.createElement("div");
+          avatar.className =
+            "w-8 h-8 bg-gray-800 text-gray-400 rounded-full flex items-center justify-center text-sm font-semibold";
+          avatar.textContent = "S";
+          wrapper.append(avatar);
+        }
+
+        wrapper.append(bubble);
+        messages.append(wrapper);
+        messages.scrollTop = messages.scrollHeight;
+      }
+
+      function sendChatMessage() {
+        const input = document.getElementById("chat-input");
+        const text = input.value.trim();
+        if (!text) return;
+
+        addMessage(text, "user");
+        input.value = "";
+
+        const response = botReplies[text.toLowerCase()] || botReplies.default;
+        setTimeout(() => addMessage(response, "bot"), 500);
+      }
+    </script>
+  </body>
+</html>
