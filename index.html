@@ -643,7 +643,7 @@
 
         try {
           // send message to backend using the correct property key // http://195.35.21.11:8000
-          const response = await fetch("http://195.35.21.11:8000/chat", {
+          const response = await fetch("https://api.saavigen.ai/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ question: msg }), // ✅ key fixed
