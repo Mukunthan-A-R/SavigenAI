@@ -415,7 +415,7 @@
       >
         <!-- Header -->
         <div class="bg-black px-4 py-3 flex justify-between items-center">
-          <span class="font-semibold">SaaviGenAI Assistant</span>
+          <span class="font-semibold">AI Mini Chatbot</span>
           <button id="chat-close" class="text-gray-400 hover:text-white">
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -426,6 +426,29 @@
           class="flex-1 p-4 space-y-3 overflow-y-auto text-sm bg-neutral-800"
         >
           <div class="text-gray-400 text-center">Ask me anything…</div>
+          <!-- Quick Questions -->
+          <div
+            id="quick-questions"
+            class="p-4 bg-neutral-900 border-t border-neutral-700 rounded-xl"
+          >
+            <div class="flex flex-wrap gap-2">
+              <button
+                class="quick-btn text-xs px-4 py-2 rounded-xl bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-blue-600 hover:text-white transition"
+              >
+                What is SaaviGenAI and what does it do?
+              </button>
+              <button
+                class="quick-btn text-xs px-4 py-2 rounded-xl bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-blue-600 hover:text-white transition"
+              >
+                What training programs does SaaviGenAI offer?
+              </button>
+              <button
+                class="quick-btn text-xs px-4 py-2 rounded-xl bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-blue-600 hover:text-white transition"
+              >
+                How does SaaviGenAI help with AI security and compliance?
+              </button>
+            </div>
+          </div>
         </div>
         <!-- Input area -->
         <form id="chat-form" class="flex border-t border-neutral-700">
@@ -668,6 +691,16 @@
           chatMessages.scrollTop = chatMessages.scrollHeight;
           console.error(err);
         }
+      });
+    </script>
+    <script>
+      // Handle quick question buttons
+      document.querySelectorAll(".quick-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const question = btn.textContent;
+          chatInput.value = question;
+          chatForm.dispatchEvent(new Event("submit"));
+        });
       });
     </script>
   </body>
